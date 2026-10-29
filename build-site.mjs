@@ -32,12 +32,11 @@ export function buildSite() {
   const teamHtml = (data.team || [])
     .map(
       (m, idx) =>
-        `<div class="tm" data-tm-idx="${idx}" role="button" tabindex="0" aria-label="Lihat detail ${esc(m.name)}">` +
+        `<div class="tm" data-tm-idx="${idx}" role="button" tabindex="0" aria-label="View profile of ${esc(m.name)}">` +
         (m.image
           ? `<img src="${m.image}" alt="${esc(m.name)}">`
           : `<div class="pw" style="--a:#14b8a6;--c:#7c3aed"></div>`) +
         `<div class="ov"></div>` +
-        `<span class="tm-hint">Lihat Detail ↗</span>` +
         `<div class="cap"><b>${esc(m.name)}</b><small>${esc(m.role)}</small></div></div>`
     )
     .join('\n');
@@ -110,8 +109,6 @@ h1{font-size:clamp(38px,6.8vw,100px);line-height:.98;letter-spacing:-.045em;font
 .tm .ov{background:var(--g);opacity:.55;transition:opacity .4s}.tm:hover .ov{opacity:.3}
 .tm .cap{position:absolute;left:0;bottom:0;width:100%;padding:22px 20px;background:linear-gradient(0deg,rgba(0,0,0,.7),transparent)}
 .tm b{display:block;font-size:20px;font-weight:600;letter-spacing:-.02em}.tm small{font-size:14px;opacity:.85}
-.tm-hint{position:absolute;top:14px;right:14px;background:rgba(13,13,20,.72);color:#fff;font-size:12px;font-weight:500;padding:6px 11px;letter-spacing:.04em;opacity:0;transform:translateY(-6px);transition:.25s;pointer-events:none;border:1px solid rgba(255,255,255,.22)}
-.tm:hover .tm-hint{opacity:1;transform:translateY(0)}
 .pw{background:linear-gradient(145deg,var(--a),var(--c))}.wk{flex:none;width:max(40vw,250px)}.wk .im{position:relative;aspect-ratio:4/3;overflow:hidden}.cols3.nogap{gap:0}.nogap .box{position:relative}.nogap .box:hover{z-index:2;background:var(--g);box-shadow:0 22px 40px -14px rgba(124,58,237,.5)}.ic{display:block;width:60px;height:60px;padding:14px;margin-bottom:26px;background:var(--g);transition:background .35s}.ic svg{width:100%;height:100%;fill:none;stroke:#fff;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;transition:stroke .35s}.box:hover .ic{background:#fff}.box:hover .ic svg{stroke:url(#gi)}
 .wk .pw,.wk img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .7s}.wk:hover .pw,.wk:hover img{transform:scale(1.06)}.wk .t{padding:16px 20px 4px}.wk b{display:block;font-size:20px;font-weight:600;letter-spacing:-.02em}.wk small{color:var(--mute);font-size:14px}
 .pw.ph-card{display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at 15% 85%,var(--a),transparent 60%),radial-gradient(circle at 85% 15%,var(--c),transparent 60%),#150f2b}
@@ -258,7 +255,7 @@ ${teamHtml}
       <ul id="price-features">
 ${featuresHtml}
       </ul>
-      <a class="btn w2" href="#contact">Find Support Now</a>
+      <a class="btn w2" href="https://www.paypal.com/webapps/billing/plans/subscribe?plan_id=P-3YJ13201AB3799113NLRPHHI">Start Now</a>
     </div>
   </div>
 </section>
@@ -298,11 +295,11 @@ ${portfolioHtml}
   <div class="final">
     <h2>Ready to scale your design?</h2>
     <p style="font-size:18px;margin:0 0 22px">Skip the hiring process and start getting great design this week.</p>
-    <a class="btn w2" href="mailto:hello@toskaa.com">Start Your Subscription</a>
+    <a class="btn w2" href="https://www.paypal.com/webapps/billing/plans/subscribe?plan_id=P-3YJ13201AB3799113NLRPHHI">Start Your Subscription</a>
   </div>
 </section>
 
-<footer><span>© 2026 Toskaa Studio. All rights reserved.</span><span>hello@toskaa.com</span></footer>
+<footer><span>© 2026 Toskaa Studio. All rights reserved.</span></footer>
 </div></div>
 
 <!-- Team Detail Popup Modal -->
@@ -313,11 +310,11 @@ ${portfolioHtml}
       <div class="ov"></div>
     </div>
     <div class="tmb-body">
-      <button class="tmb-x" id="tmm-close" aria-label="Tutup detail tim">×</button>
+      <button class="tmb-x" id="tmm-close" aria-label="Close">×</button>
       <div class="tmb-role" id="tmm-role"></div>
       <h3 class="tmb-name" id="tmm-name"></h3>
       <div class="tmb-line"></div>
-      <div class="tmb-lbl">Pengalaman & Keahlian</div>
+      <div class="tmb-lbl">Experience</div>
       <p class="tmb-desc" id="tmm-desc"></p>
     </div>
   </div>
@@ -329,7 +326,7 @@ window.TOSKAA_DEFAULT_DATA = ${JSON.stringify(data)};
 (function(){
   let cmsData = window.TOSKAA_DEFAULT_DATA;
   try {
-    const saved = localStorage.getItem('toskaa_cms_override');
+    const saved = localStorage.getItem('toskaa_cms_override_v2');
     if (saved) cmsData = JSON.parse(saved);
   } catch(e){}
 
@@ -360,9 +357,9 @@ window.TOSKAA_DEFAULT_DATA = ${JSON.stringify(data)};
       if (tt) {
         delete tt._o;
         tt.innerHTML = d.team.map((m, idx) =>
-          '<div class="tm" data-tm-idx="' + idx + '" role="button" tabindex="0" aria-label="Lihat detail ' + esc(m.name) + '">' +
+          '<div class="tm" data-tm-idx="' + idx + '" role="button" tabindex="0" aria-label="View profile of ' + esc(m.name) + '">' +
           (m.image ? '<img src="' + m.image + '" alt="' + esc(m.name) + '">' : '<div class="pw" style="--a:#14b8a6;--c:#7c3aed"></div>') +
-          '<div class="ov"></div><span class="tm-hint">Lihat Detail ↗</span>' +
+          '<div class="ov"></div>' +
           '<div class="cap"><b>' + esc(m.name) + '</b><small>' + esc(m.role) + '</small></div></div>'
         ).join('');
       }
@@ -594,7 +591,7 @@ const SERVICES = [
 let state = ${JSON.stringify(data)};
 
 try {
-  const localOverride = localStorage.getItem('toskaa_cms_override');
+  const localOverride = localStorage.getItem('toskaa_cms_override_v2');
   if (localOverride && location.protocol === 'file:') {
     state = JSON.parse(localOverride);
   }
@@ -713,9 +710,9 @@ window.removeTeam = function(idx) {
 document.getElementById('add-team').addEventListener('click', () => {
   state.team.push({
     id: 'tm-' + Date.now(),
-    name: 'Nama Anggota Baru',
+    name: 'New Team Member',
     role: 'Product Designer',
-    experience: '5+ tahun pengalaman menangani desain produk digital, branding, dan sistem antarmuka modern untuk berbagai klien.',
+    experience: '5+ years of experience crafting digital products, brand identities, and modern interface systems.',
     image: state.team[0] ? state.team[0].image : ''
   });
   renderTeam();
@@ -823,7 +820,7 @@ renderAll();
 async function saveChanges(andPublish = false) {
   collectPricing();
   try {
-    localStorage.setItem('toskaa_cms_override', JSON.stringify(state));
+    localStorage.setItem('toskaa_cms_override_v2', JSON.stringify(state));
   } catch(e){}
 
   try {
