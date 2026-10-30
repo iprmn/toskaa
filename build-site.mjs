@@ -74,10 +74,16 @@ body{margin:0;background:var(--card);color:var(--ink);font-family:"Inter Tight",
 a{color:inherit;text-decoration:none}
 .wrap{width:100%}
 .card{background:var(--card);--p:clamp(18px,4vw,64px);padding:6px var(--p) var(--p)}
-.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;display:flex;justify-content:space-between;align-items:center;gap:16px;background:var(--card);border:1px solid var(--line);border-radius:99px;padding:10px 10px 10px 24px;box-shadow:0 8px 30px rgba(0,0,0,.08);margin-bottom:44px}
+.nav{position:sticky;top:calc(env(safe-area-inset-top,0px) + 14px);z-index:25;display:flex;justify-content:space-between;align-items:center;gap:16px;background:var(--card);border:0;border-radius:99px;padding:12px 14px 12px 24px;box-shadow:0 10px 34px rgba(13,13,20,.1);margin:clamp(18px,2.5vw,30px) 0 44px}
 .logo{display:flex;align-items:center;gap:9px;font-weight:600;letter-spacing:.2px}
 .logo i{width:24px;height:24px;background:var(--g);border-radius:50% 8px 50% 8px;display:block}
-.nav nav{display:flex;gap:clamp(14px,3vw,38px);font-size:15px}.nav nav a{position:relative;padding:6px 0;transition:.25s}.nav nav a::after{content:"";position:absolute;left:0;bottom:0;width:100%;height:2px;background:var(--gt);transform:scaleX(0);transform-origin:left;transition:transform .3s}.nav nav a:hover{transform:translateY(-2px);color:var(--b)}.nav nav a:hover::after{transform:scaleX(1)}
+.nav nav{display:flex;align-items:center;gap:clamp(14px,3vw,38px);font-size:15px}.nav nav a:not(.btn){position:relative;padding:6px 0;transition:.25s}.nav nav a:not(.btn)::after{content:"";position:absolute;left:0;bottom:0;width:100%;height:2px;background:var(--gt);transform:scaleX(0);transform-origin:left;transition:transform .3s}.nav nav a:not(.btn):hover{transform:translateY(-2px);color:var(--b)}.nav nav a:not(.btn):hover::after{transform:scaleX(1)}
+.mob-cta,.menu-btn{display:none}
+.menu-btn{flex-direction:column;justify-content:center;align-items:center;gap:5px;width:42px;height:42px;background:transparent;border:0;cursor:pointer;padding:0}
+.menu-btn span{display:block;width:22px;height:2px;background:var(--ink);transition:transform .25s,opacity .25s}
+.nav.open .menu-btn span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.nav.open .menu-btn span:nth-child(2){opacity:0}
+.nav.open .menu-btn span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
 .btn{display:inline-block;background:var(--g);color:#fff;padding:13px 26px;font-weight:500;border:0;cursor:pointer;font:inherit;font-weight:500;border-radius:99px;transition:.2s}
 .btn:hover{transform:scale(1.07)}.btn:active{transform:scale(.97)}
 .btn.w2{background:#fff;color:#1a1033}
@@ -89,7 +95,7 @@ a{color:inherit;text-decoration:none}
 h1{font-size:clamp(38px,6.8vw,100px);line-height:.98;letter-spacing:-.045em;font-weight:600;margin:0}
 .chip{display:inline-block;height:.5em;width:1.8em;border-radius:99px;vertical-align:middle;background:var(--g);margin:0 .08em;position:relative;top:-.05em}
 .chip.t{font-size:.2em;color:#fff;width:auto;height:auto;padding:0 1em;line-height:2.6;letter-spacing:0;font-weight:500;vertical-align:.8em;top:0}
-.grad{background:var(--gt);-webkit-background-clip:text;background-clip:text;color:transparent}
+.grad{background:var(--gt);-webkit-background-clip:text;background-clip:text;color:transparent;padding-right:.08em;margin-right:-.05em;padding-bottom:.04em;-webkit-box-decoration-break:clone;box-decoration-break:clone}
 .under{display:flex;gap:20px;align-items:center;margin-top:18px;flex-wrap:wrap}
 .tag{background:var(--g);color:#fff;font-size:clamp(14px,1.5vw,19px);line-height:1.25;padding:10px 14px;max-width:340px;border-radius:6px}
 
@@ -176,8 +182,32 @@ details.o summary::after{transform:rotate(45deg)}
 details p{color:var(--mute);margin:12px 0 0;max-width:680px;overflow:hidden}
 .final{background:var(--g);color:#fff;padding:clamp(28px,6vw,80px);text-align:center;border-radius:28px}
 .final h2{margin-inline:auto;max-width:800px}
-footer{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-top:50px;color:var(--mute);font-size:14px}
-@media(max-width:900px){.hero,.hero2,.price,.cols3{grid-template-columns:1fr}.watch{max-width:230px}.nav nav{display:none}.hero2>*+*{border-left:0;border-top:1px solid rgba(255,255,255,.28)}.grid{grid-template-columns:1fr 1fr}.grid div:nth-child(5){grid-column:span 2}}
+footer{display:flex;justify-content:center;align-items:center;text-align:center;flex-wrap:wrap;gap:12px;margin-top:50px;color:var(--mute);font-size:14px}
+@media(max-width:900px){
+  .hero,.hero2,.price,.cols3{grid-template-columns:1fr}
+  .nav{padding:10px 14px 10px 20px;margin:14px 0 32px}
+  .nav .nav-cta{display:none}
+  .menu-btn{display:flex}
+  .nav nav{display:none;position:absolute;top:calc(100% + 10px);left:0;right:0;background:var(--card);box-shadow:0 18px 40px rgba(13,13,20,.14);padding:20px 22px;flex-direction:column;align-items:stretch;gap:12px;z-index:30}
+  .nav.open nav{display:flex}
+  .nav nav a:not(.btn){padding:8px 0;border-bottom:1px solid var(--line);font-size:16px}
+  .nav nav .mob-cta{display:block;text-align:center;margin-top:6px}
+  .meta{display:block;font-size:12px;letter-spacing:.1em;margin-bottom:14px}
+  .meta span:first-child::after{content:", "}
+  .watch{width:100%;max-width:100%;aspect-ratio:16/9}
+  .hero2>*+*{border-left:0;border-top:1px solid rgba(255,255,255,.28)}
+  .grid{grid-template-columns:1fr 1fr}
+  .grid div:nth-child(5){grid-column:span 2}
+  .tw{overflow-x:visible}
+  .cmp{min-width:0;width:100%;font-size:clamp(12px,3.2vw,15px)}
+  .cmp th{font-size:clamp(11px,2.9vw,13px)}
+  .cmp th,.cmp td{padding:11px 6px}
+  .cmp tr:hover td:first-child,.cmp tr:hover td:last-child{padding-left:6px}
+  .wk{width:66.666vw}
+  .wk .t{padding:12px 14px 4px}
+  .wk b{font-size:17px}
+  .wk small{font-size:13px}
+}
 @media(max-width:640px){.tmb{grid-template-columns:1fr}.tmb-img{min-height:260px}}
 </style>
 </head>
@@ -185,17 +215,18 @@ footer{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;margin
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><linearGradient id="gi" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="24" y2="24"><stop offset="0" stop-color="#14b8a6"/><stop offset="1" stop-color="#7c3aed"/></linearGradient></defs></svg>
 <div class="wrap"><div class="card">
 
-<div class="nav">
+<div class="nav" id="navbar">
   <a class="logo" href="#top"><i></i>TOSKAA STUDIO</a>
-  <nav><a href="#services">Services</a><a href="#how">How it works</a><a href="#pricing">Pricing</a><a href="#works">Our Works</a><a href="#faq">FAQ</a></nav>
-  <a class="btn" href="#pricing">Get Started</a>
+  <nav id="nav-menu"><a href="#services">Services</a><a href="#how">How it works</a><a href="#pricing">Pricing</a><a href="#works">Our Works</a><a href="#faq">FAQ</a><a class="btn mob-cta" href="#pricing">Get Started</a></nav>
+  <a class="btn nav-cta" href="#pricing">Get Started</a>
+  <button class="menu-btn" id="mbtn" aria-label="Toggle navigation menu" aria-expanded="false"><span></span><span></span><span></span></button>
 </div>
 
 <div id="top" class="meta"><span>Design Subscription</span><span>Pause or cancel anytime</span></div>
 <div class="hero">
   <div>
     <div class="frame"><b>✦</b><b>✦</b><b>✦</b><b>✦</b>
-      <h1>Your Time Belongs to Strategy. <span class="grad">Leave the Design to Us.</span></h1>
+      <h1>Your Time Belongs to Strategy. <span class="grad">Leave the</span> <span class="grad">Design to Us.</span></h1>
     </div>
     <div class="under">
       <a class="btn" href="#pricing">See Pricing</a>
@@ -211,7 +242,7 @@ footer{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;margin
     <li><span>1</span>UI/UX Design</li><li><span>2</span>Branding</li><li><span>3</span>Web Development</li><li><span>4</span>Marketing Creatives</li><li><span>5</span>Printed Visualization</li>
   </ul>
 </div>
-<div class="mq strip" id="team-strip"><div class="track" id="team-track">
+<div class="mq strip" id="team-strip"${data.showTeam === false ? ' style="display:none"' : ''}><div class="track" id="team-track">
 ${teamHtml}
 </div></div>
 
@@ -352,6 +383,10 @@ window.TOSKAA_DEFAULT_DATA = ${JSON.stringify(data)};
         elFeat.innerHTML = p.features.map(f => '<li>' + esc(f) + '</li>').join('');
       }
     }
+    const ts = document.getElementById('team-strip');
+    if (ts) {
+      ts.style.display = d.showTeam === false ? 'none' : '';
+    }
     if (Array.isArray(d.team) && d.team.length) {
       const tt = document.getElementById('team-track');
       if (tt) {
@@ -425,6 +460,29 @@ window.TOSKAA_DEFAULT_DATA = ${JSON.stringify(data)};
   tmmClose.addEventListener('click', closeTeamModal);
   tmm.addEventListener('click', e => { if (e.target === tmm) closeTeamModal(); });
   addEventListener('keydown', e => { if (e.key === 'Escape' && tmm.classList.contains('on')) closeTeamModal(); });
+
+  // Mobile Menu Logic
+  const navBar = document.getElementById('navbar');
+  const mbtn = document.getElementById('mbtn');
+  if (mbtn && navBar) {
+    mbtn.addEventListener('click', e => {
+      e.stopPropagation();
+      const isOpen = navBar.classList.toggle('open');
+      mbtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    });
+    navBar.querySelectorAll('nav a').forEach(a => {
+      a.addEventListener('click', () => {
+        navBar.classList.remove('open');
+        mbtn.setAttribute('aria-expanded', 'false');
+      });
+    });
+    addEventListener('click', e => {
+      if (navBar.classList.contains('open') && !navBar.contains(e.target)) {
+        navBar.classList.remove('open');
+        mbtn.setAttribute('aria-expanded', 'false');
+      }
+    });
+  }
 })();
 
 let bw=0;const build=()=>{if(innerWidth===bw)return;bw=innerWidth;document.querySelectorAll('.track').forEach(t=>{if(!t._o)t._o=[...t.children];t.replaceChildren(...t._o);const n=Math.max(1,Math.ceil(Math.max(innerWidth,screen.width)*1.2/(t.scrollWidth||1)));for(let i=0;i<2*n-1;i++)t._o.forEach(c=>t.appendChild(c.cloneNode(true)))})};build();addEventListener('resize',build);addEventListener('load',()=>{bw=0;build()});
@@ -493,6 +551,19 @@ body{margin:0;background:var(--bg);color:var(--ink);font-family:"Inter Tight",sy
 .toast{position:fixed;bottom:24px;right:24px;background:#150f2b;color:#fff;padding:14px 22px;border-left:4px solid #14b8a6;box-shadow:0 14px 35px rgba(0,0,0,.25);font-weight:500;z-index:100;opacity:0;transform:translateY(12px);pointer-events:none;transition:.25s}
 .toast.show{opacity:1;transform:translateY(0)}
 .info-banner{background:#eefcf9;border:1px solid #99f6e4;color:#0f766e;padding:14px 18px;margin-bottom:22px;font-size:14px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.toggle-row{display:flex;justify-content:space-between;align-items:center;gap:16px;background:var(--card);border:1px solid var(--line);padding:16px 20px;margin-bottom:18px;box-shadow:0 4px 14px rgba(13,13,20,.03)}
+.toggle-info b{display:block;font-size:16px;margin-bottom:2px}
+.toggle-info small{color:var(--mute);font-size:13px}
+.switch-wrap{display:flex;align-items:center;gap:12px}
+.status-pill{font-size:12px;font-weight:700;padding:4px 10px;letter-spacing:.05em;text-transform:uppercase}
+.status-pill.on{background:#dcfce7;color:#15803d}
+.status-pill.off{background:#f3f4f6;color:#4b5563}
+.switch{position:relative;display:inline-block;width:52px;height:28px;flex:none}
+.switch input{opacity:0;width:0;height:0}
+.slider{position:absolute;cursor:pointer;inset:0;background:#cbd5e1;transition:.25s;border-radius:99px}
+.slider::before{position:absolute;content:"";height:22px;width:22px;left:3px;bottom:3px;background:#fff;transition:.25s;border-radius:50%;box-shadow:0 2px 5px rgba(0,0,0,.2)}
+.switch input:checked + .slider{background:var(--gt)}
+.switch input:checked + .slider::before{transform:translateX(24px)}
 @media(max-width:700px){.grid-item,.row2{grid-template-columns:1fr}.thumb{width:140px}}
 </style>
 </head>
@@ -525,6 +596,19 @@ body{margin:0;background:var(--bg);color:var(--ink);font-family:"Inter Tight",sy
 
   <!-- TAB TIM -->
   <div class="panel active" id="panel-team">
+    <div class="toggle-row">
+      <div class="toggle-info">
+        <b>Tampilkan Section Tim di Website</b>
+        <small>Aktifkan atau sembunyikan deretan foto anggota tim pada halaman utama website.</small>
+      </div>
+      <div class="switch-wrap">
+        <span class="status-pill on" id="team-vis-badge">Ditampilkan</span>
+        <label class="switch" aria-label="Toggle tampilkan section tim">
+          <input type="checkbox" id="toggle-show-team" checked>
+          <span class="slider"></span>
+        </label>
+      </div>
+    </div>
     <div class="card-head">
       <h2>Kelola Anggota Tim & Popup Detail</h2>
       <button class="btn btn-pri" id="add-team">+ Tambah Anggota Tim</button>
@@ -650,7 +734,25 @@ function compressImage(file, maxW, maxH, callback) {
 
 const esc = s => String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 
+function updateTeamVisibilityUI() {
+  const isVisible = state.showTeam !== false;
+  const chk = document.getElementById('toggle-show-team');
+  const badge = document.getElementById('team-vis-badge');
+  if (chk) chk.checked = isVisible;
+  if (badge) {
+    badge.textContent = isVisible ? 'Ditampilkan' : 'Disembunyikan';
+    badge.className = 'status-pill ' + (isVisible ? 'on' : 'off');
+  }
+}
+
+document.getElementById('toggle-show-team').addEventListener('change', function() {
+  state.showTeam = this.checked;
+  updateTeamVisibilityUI();
+  showToast(this.checked ? 'Section Tim diaktifkan (klik Simpan untuk menerapkan).' : 'Section Tim disembunyikan (klik Simpan untuk menerapkan).');
+});
+
 function renderTeam() {
+  updateTeamVisibilityUI();
   const wrap = document.getElementById('team-list');
   document.querySelector('[data-tab="team"]').textContent = '👥 Tim (' + state.team.length + ')';
   wrap.innerHTML = state.team.map((m, idx) => \`

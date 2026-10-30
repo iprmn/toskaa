@@ -1,4 +1,5 @@
 {
+    "showTeam":  true,
     "pricing":  {
                     "amount":  "$1,850",
                     "period":  "/month",
