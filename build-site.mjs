@@ -576,7 +576,6 @@ body{margin:0;background:var(--bg);color:var(--ink);font-family:"Inter Tight",sy
   </div>
   <div class="actions">
     <a class="btn btn-sec" href="index.html" target="_blank">↗ Lihat Website</a>
-    <button class="btn btn-pri" id="btn-save">💾 Simpan Perubahan</button>
     <button class="btn btn-pub" id="btn-publish">🚀 Simpan & Push ke Git/Cloudflare</button>
   </div>
 </div>
@@ -681,13 +680,15 @@ try {
   }
 } catch(e){}
 
-// Try loading fresh data from local CMS server if running via buka_cms_lokal.bat
-fetch('/api/cms')
+const API_BASE = 'http://localhost:4321';
+
+// Load fresh data from local CMS server (works both via http://localhost:4321 and file://)
+fetch(API_BASE + '/api/cms')
   .then(r => r.ok ? r.json() : null)
   .then(d => {
     if (d) {
       state = d;
-      document.getElementById('mode-badge').textContent = 'TERHUBUNG KE SERVER LOKAL';
+      document.getElementById('mode-badge').textContent = 'TERHUBUNG KE GIT & SERVER LOKAL';
       renderAll();
     }
   })
@@ -748,7 +749,7 @@ function updateTeamVisibilityUI() {
 document.getElementById('toggle-show-team').addEventListener('change', function() {
   state.showTeam = this.checked;
   updateTeamVisibilityUI();
-  showToast(this.checked ? 'Section Tim diaktifkan (klik Simpan untuk menerapkan).' : 'Section Tim disembunyikan (klik Simpan untuk menerapkan).');
+  showToast(this.checked ? 'Section Tim diaktifkan (klik Simpan & Push untuk menerapkan).' : 'Section Tim disembunyikan (klik Simpan & Push untuk menerapkan).');
 });
 
 function renderTeam() {
@@ -919,32 +920,38 @@ function renderAll() {
 
 renderAll();
 
-async function saveChanges(andPublish = false) {
+async function saveAndPush() {
   collectPricing();
   try {
     localStorage.setItem('toskaa_cms_override_v2', JSON.stringify(state));
   } catch(e){}
 
+  const btn = document.getElementById('btn-publish');
+  const origText = btn.textContent;
+  btn.disabled = true;
+  btn.textContent = '⏳ Sedang Menyimpan & Push ke Git...';
+
   try {
-    const endpoint = andPublish ? '/api/publish' : '/api/cms';
-    const res = await fetch(endpoint, {
+    const res = await fetch(API_BASE + '/api/publish', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(state)
     });
-    if (res.ok) {
-      const out = await res.json();
-      showToast(out.message || (andPublish ? 'Berhasil disimpan & di-push ke GitHub/Cloudflare!' : 'Berhasil disimpan ke index.html!'));
-      return;
+    const out = await res.json();
+    if (res.ok && out.ok) {
+      showToast(out.message || '✅ Berhasil disimpan & di-push ke GitHub/Cloudflare!', false);
+    } else {
+      showToast(out.message || '❌ Gagal push ke Git.', true);
     }
   } catch (err) {
-    // Fallback if opened directly without local server
+    showToast('❌ Server lokal CMS belum aktif. Jalankan buka_cms_lokal.bat terlebih dahulu.', true);
+  } finally {
+    btn.disabled = false;
+    btn.textContent = origText;
   }
-  showToast('Disimpan di browser preview! Jalankan buka_cms_lokal.bat untuk menyimpan permanen & push ke Git.');
 }
 
-document.getElementById('btn-save').addEventListener('click', () => saveChanges(false));
-document.getElementById('btn-publish').addEventListener('click', () => saveChanges(true));
+document.getElementById('btn-publish').addEventListener('click', saveAndPush);
 </script>
 </body>
 </html>`;
